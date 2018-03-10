@@ -21,42 +21,21 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BLArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseLibs2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BLString.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BLStringBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BLWinPath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BLError.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BLArray.c">
+    <ClCompile Include="BLArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BLString.c">
+    <ClCompile Include="BLString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BLStringBuilder.c">
+    <ClCompile Include="BLStringBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BLWinPath.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BLError.cpp">
+    <ClCompile Include="BLWinPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
