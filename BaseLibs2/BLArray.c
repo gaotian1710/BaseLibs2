@@ -78,6 +78,13 @@ size_t BLBuffer_UnitCount(PBLBuffer p, BLTypes t)
 	return BLArray_UnitCount(&(p->arrayData), t);
 }
 
+void BLBuffer_Clear(PBLBuffer p)
+{
+	memset(p->arrayData.data.c, 0, p->arrayData.end.c - p->arrayData.data.c);
+	p->putter.c = p->arrayData.data.c;
+	p->getter.c = p->arrayData.data.c;
+}
+
 
 #pragma region unit putter and unit getter
 typedef void(*BLUnitPutter)(PBLBuffer p, const void* data);

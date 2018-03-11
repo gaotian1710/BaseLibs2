@@ -39,6 +39,9 @@
     <ClInclude Include="BLError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BLLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -56,7 +59,10 @@
     <ClCompile Include="BLWinPath.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BLError.cpp">
+    <ClCompile Include="BLError.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BLLog.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

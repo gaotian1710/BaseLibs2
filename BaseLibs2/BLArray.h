@@ -73,6 +73,11 @@ typedef union {
 } BLData, *PBLData;
 
 typedef struct {
+	wchar_t* pwc;
+	size_t ccLen;
+} BLWriteBuffer;
+
+typedef struct {
 	BLCPtr end;
 	BLData data;
 } BLArray, *PBLArray;
@@ -104,6 +109,7 @@ extern "C" {
 
 	PBLBuffer BLBuffer_ReadFileW(PBLArray utf16Filename);
 
+	void BLBuffer_Clear(PBLBuffer p);
 #if defined(__cplusplus)
 }
 #endif

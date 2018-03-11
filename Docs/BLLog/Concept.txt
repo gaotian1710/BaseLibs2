@@ -1,0 +1,38 @@
+BLLog design concept
+
+1. file management
+Initialize: by ini-file (default filename: module base name + ".ini")
+
+[log]
+path=<absolute path>
+level=[fatal | error | info | debug] (case insensitive)
+trigger=[flush | bufferfull]
+bufsize=<natural number> (unit: bytes, > 1000)
+filesize=<natural number> (unit: bytes, >= bufSize)
+rolling=<non negative integer>
+
+2. buffer management
+see-saw buffer
+
+bufferfull trigger mode: 
+	log buffers are flushed at every buffer-full event.
+
+flush trigger mode:
+	log buffers are flushed by calling BLLog_Flush() method.
+
+3. record format
+date-time,log-level,mod-name,proc-id,code-type,code,__file__,__line__,comment,data,to-be-continued
+
+date-time: ISO style date-time (UTC), e.g. 2018-01-31T23:59:59.999Z
+log-level: 0:fatal, 1:error, 2:info, 4:debug
+mod-name: module base name and extension; e.g. cmd.exe, notepad.exe, cnfmrti.dll
+proc-id: process id in 0x%08x
+code-type: 0:BL, 1: errno, 2: win, 3: HRESULT, 4: other
+code: ENOMEM, ERROR_FILE_NOT_FOUND, S_OK, in 0x%08x
+__file__: PathFindFileNameA(__FILE__)
+__line__: __LINE__ in decimal number
+comment: arbitrary string formatted in CSV-escaped string
+data: arbitrary data, formatted in CSV-escaped string
+to-be-continued: 0: not continue, 1: continue to the next record
+	In the case of to-be-continued, the next record has related information assumed as a set of information.
+	

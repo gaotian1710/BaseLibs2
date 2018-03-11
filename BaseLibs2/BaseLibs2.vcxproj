@@ -152,6 +152,7 @@
     <ClInclude Include="BaseLibs2.h" />
     <ClInclude Include="BLArray.h" />
     <ClInclude Include="BLError.h" />
+    <ClInclude Include="BLLog.h" />
     <ClInclude Include="BLString.h" />
     <ClInclude Include="BLStringBuilder.h" />
     <ClInclude Include="BLWinPath.h" />
@@ -160,7 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BLArray.c" />
-    <ClCompile Include="BLError.cpp" />
+    <ClCompile Include="BLError.c" />
+    <ClCompile Include="BLLog.c" />
     <ClCompile Include="BLString.c" />
     <ClCompile Include="BLStringBuilder.c" />
     <ClCompile Include="BLWinPath.c" />
