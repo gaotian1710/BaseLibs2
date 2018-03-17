@@ -35,6 +35,22 @@ extern "C" {
 	\return a multibyte string equivalent to wstr.
 	*/
 	PBLArray BLString_wc2mbc(PBLArray wstr);
+
+	/*!
+	\brief modify a file path appending decimal number at the end of filename extension
+	\param wstr [in] a wide character string
+	\param num [in] 0 or positive integer less than 100; i.e. representable in two digits
+	\return a new path string
+	*/
+	PBLArray BLString_ModifyPath0(const wchar_t* wstr, int i);
+
+	/*!
+	\brief modify a file path appending decimal number at the end of filename base
+	\param wstr [in] a wide character string
+	\param num [in] 0 or positive integer less than 100; i.e. representable in two digits
+	\return a new path string
+	*/
+	PBLArray BLString_ModifyPath1(const wchar_t* wstr, int i);
 #if defined(__cplusplus)
 }
 #endif

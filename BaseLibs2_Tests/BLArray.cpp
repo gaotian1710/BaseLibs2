@@ -12,10 +12,10 @@ namespace BaseLibs2_Tests
 		TEST_METHOD(UTBLArray_NewByteCountUnitCountDelete)
 		{
 			PBLArray p = BLArray_New(2, BLType_dc);
-			Assert::AreEqual(32u, BLArray_ByteCount(p));
-			Assert::AreEqual(32u, BLArray_UnitCount(p, BLType_c));
-			Assert::AreEqual(2u, BLArray_UnitCount(p, BLType_dc));
-			Assert::AreEqual(8u, BLArray_UnitCount(p, BLType_ui32));
+			Assert::AreEqual((size_t)32, BLArray_ByteCount(p));
+			Assert::AreEqual((size_t)32, BLArray_UnitCount(p, BLType_c));
+			Assert::AreEqual((size_t)2, BLArray_UnitCount(p, BLType_dc));
+			Assert::AreEqual((size_t)8, BLArray_UnitCount(p, BLType_ui32));
 			BLArray_Delete(&p);
 			Assert::AreEqual((void*)NULL, (void*)p);
 		}
@@ -39,7 +39,7 @@ namespace BaseLibs2_Tests
 			size_t unitCount = 1;
 			PBLArray p = BLArray_New(unitCount, BLType_dc);
 			ptrdiff_t diff = (p->data.i8 + unitCount * BLUnitSizes[BLType_dc]) - (p->end.i8);
-			Assert::AreEqual(0, diff);
+			Assert::AreEqual((int)0, (int)diff);
 			BLArray_Delete(&p);
 		}
 	};

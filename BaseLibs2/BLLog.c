@@ -152,7 +152,7 @@ void BLLog_Delete(PBLLog * pp)
 	if (*pp)
 	{
 		DeleteCriticalSection(&(*pp)->cs);
-		BLArray_Delte(&((*pp)->moduleName));
+		BLArray_Delete(&((*pp)->moduleName));
 		BLLogIni_Delete(&((*pp)->ini));
 		BLBuffer_Delete(&((*pp)->buf[0]));
 		BLBuffer_Delete(&((*pp)->buf[1]));
@@ -161,11 +161,15 @@ void BLLog_Delete(PBLLog * pp)
 	}
 }
 
-void BLLog_AppendHeader(PBLLog p, BLWriteBuffer *wb)
+/*
+This is private to BLLog.c.
+Fill wb with header info; date-time, log level, module name, and process id.
+*/
+void _BLLog_FillHeader(PBLLog p, PBLWriteBuffer wb)
 {
 	static SYSTEMTIME st;
 	GetSystemTime(&st);
-	int iWritten = _snwprinitf_s(wb->pwc, wb->ccLen, wb->ccLen - 1,
+	int iWritten = _snwprintf_s(wb->pwc, wb->ccLen, wb->ccLen - 1,
 		BLLOG_HEADER_FORMAT_DESCRIPTOR,
 		st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds,
 		(int)(p->ini->ll), p->moduleName->data.wc, p->processId
@@ -177,44 +181,132 @@ void BLLog_AppendHeader(PBLLog p, BLWriteBuffer *wb)
 	}
 }
 
-BLWriteBuffer BLLog_Get(PBLLog p)
+/*
+Append the contents in wb to BLLog internal buffer.
+*/
+DWORD _BLLog_AppendBuffer(PBLLog p, BLWriteBuffer *wb)
 {
-	BLWriteBuffer wb = { 0 };
-	EnterCriticalSection(&(p->cs));
-	wb.ccLen = (p->buf[p->iBuf]->arrayData.end.wc) - (p->buf[p->iBuf]->putter.wc);
-	wb.pwc = (p->buf[p->iBuf]->putter.wc);
-	if (wb.ccLen < (BLLOG_HEADER_LENGTH(p->moduleName->data.wc) + 2 * MAX_PATH))
-	{
-		p->iBuf++;
-		p->iBuf &= 1;
-		if (p->iBuf == 0)
-		{ // buffer full
-			if (p->ini->lwt == BLLogWriteTrigger_BufferFull)
+
+}
+
+/*
+Flush buffer always
+*/
+DWORD _BLLog_FlushBuffer(PBLLog p)
+{
+
+}
+
+/*
+Roll files always
+*/
+DWORD _BLLog_RollFilesAlways(PBLLog p)
+{
+	const wchar_t* basePath = p->ini->filePath->data.wc;
+	size_t ccBase = wcslen(basePath);
+	size_t ccMargin = 4;
+	size_t ccMaxPathLen = ccBase + ccMargin;
+	PBLArray srcPath = BLArray_New(ccMaxPathLen, BLType_wc);
+	PBLArray dstPath = BLArray_New(ccMaxPathLen, BLType_wc);
+	DWORD err = ERROR_SUCCESS;
+	do {
+		size_t iter = p->ini->cFiles;
+		while (iter)
+		{
+			// create destination path name
+			wcscpy_s(dstPath->data.wc, dstPath->end.wc - dstPath->data.wc, basePath);
+			wchar_t* wrptr = dstPath->data.wc + ccBase;
+			_snwprintf_s(wrptr, ccMargin, ccMargin - 1, L"%03zu", iter--);
+				// create the destination path and decrement iteration counter.
+
+			// create source path name
+			wcscpy_s(srcPath->data.wc, srcPath->end.wc - srcPath->data.wc, basePath);
+			if (iter)
 			{
-				if (BLLog_Flush(p))
+				wrptr = srcPath->data.wc + ccBase;
+				_snwprintf_s(wrptr, ccMargin, ccMargin - 1, L"%03zu", iter);
+			}
+
+			// delete destination file if exists.
+			if (PathFileExists(dstPath->data.wc))
+			{
+				if (!DeleteFile(dstPath->data.wc))
 				{
-					wb.ccLen = 0;
-					wb.pwc = NULL;
-					return wb;
+					err = GetLastError(); break;
 				}
 			}
-			else
+			// move the source file.
+			if (!MoveFile(srcPath->data.wc, dstPath->data.wc))
 			{
-				BLBuffer_Clear(p->buf[p->iBuf]);
-				wb.ccLen = (p->buf[p->iBuf]->arrayData.end.wc) - (p->buf[p->iBuf]->putter.wc);
-				wb.pwc = (p->buf[p->iBuf]->putter.wc);
+				err = GetLastError(); break;
 			}
 		}
-	}
-
-	return wb;
+	} while (false);
+	BLArray_Delete(&srcPath);
+	BLArray_Delete(&dstPath);
+	return err;
 }
+
+/*
+Roll file if file rolling mode is selected and file size exceeds the limit.
+*/
+DWORD _BLLog_RollFiles(PBLLog p)
+{
+	DWORD err = ERROR_SUCCESS;
+	do {
+		// get the target file size
+		HANDLE h = CreateFile(p->ini->filePath->data.wc, GENERIC_READ, 0, NULL,
+			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (h == INVALID_HANDLE_VALUE)
+		{
+			err = GetLastError();
+			break;
+		}
+
+		DWORD cbFile = GetFileSize(h, NULL);
+		CloseHandle(h);
+
+		if (cbFile > p->ini->cbFile)
+		{
+			err = _BLLog_RollFilesAlways(p);
+		}
+	} while (false);
+	return err;
+}
+
+/*
+Flush currently selected internal buffer automatically.
+*/
+DWORD _BLLog_AutoFlush(PBLLog p)
+{
+	DWORD err = ERROR_SUCCESS;
+	do {
+
+	} while (false);
+	return err;
+}
+
+DWORD BLLog_Get(PBLLog p, PBLWriteBuffer wb)
+{
+	DWORD err = ERROR_SUCCESS;
+	do {
+
+	} while (false);
+	return err;
+}
+
+
+DWORD BLLog_GetAnother(PBLLog p, PBLWriteBuffer wb)
+{
+	
+}
+
 
 DWORD BLLog_Release(PBLLog p, BLWriteBuffer writeBuffer)
 {
 	DWORD err = ERROR_SUCCESS;
 	do {
-		if (writeBuffer.pwc - p->buf[p->iBuf] > 0)
+		if (writeBuffer.pwc - p->buf[p->iBuf]->arrayData.data.wc > 0)
 		{
 			err = ERROR_INVALID_OPERATION; break;
 		}

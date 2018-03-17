@@ -135,3 +135,37 @@ PBLArray BLString_wc2mbc(PBLArray wstr)
 	}
 	return p;
 }
+
+
+PBLArray BLString_ModifyPath0(const wchar_t* wstr, unsigned int i)
+{
+	PBLArray p = NULL;
+	if (i >= 100) return p;
+	p = BLString_NewW(wstr, wcslen(wstr) + 4);
+	_snwprintf_s(p->data.wc + wcslen(wstr), 4, 3, L"-%02d", i);
+	return p;
+}
+
+PBLArray BLString_ModifyPath1(const wchar_t * wstr, int i)
+{
+	PBLArray p = NULL;
+	if (i >= 100) return p;
+	p = BLString_NewW(wstr, wcslen(wstr) + 4);
+	wchar_t* extPos = p->end.wc;
+	do {
+		--extPos;
+		if (*extPos == L'.') break;
+	} while (extPos != p->data.wc);
+	if (extPos == p->data.wc)
+	{
+		BLArray_Delete(&p);
+	}
+	else
+	{
+		size_t bufferLen = 4 + wcslen(extPos);
+		PBLArray extension = BLString_NewW(extPos, 0);
+		extPos += _snwprintf_s(extPos, bufferLen, bufferLen - 1, L"-%02d%ws", i, extension->data.wc);
+		BLArray_Delete(&extension);
+	}
+	return p;
+}

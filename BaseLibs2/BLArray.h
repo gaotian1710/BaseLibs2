@@ -75,7 +75,9 @@ typedef union {
 typedef struct {
 	wchar_t* pwc;
 	size_t ccLen;
-} BLWriteBuffer;
+} BLWriteBuffer, *PBLWriteBuffer;
+
+typedef const BLWriteBuffer *PCBLWriteBuffer;
 
 typedef struct {
 	BLCPtr end;

@@ -45,7 +45,7 @@ DWORD BLWinPath_CanWrite(const wchar_t * filePath)
 			break;
 		}
 
-		if (PathExists(filePath)) // try to append to the file if the file exists.
+		if (PathFileExists(filePath)) // try to append to the file if the file exists.
 		{ 
 			if (PathIsDirectory(filePath) == (BOOL)FILE_ATTRIBUTE_DIRECTORY)
 			{ // it means that the file could not be written as a normal file.

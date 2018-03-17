@@ -9,8 +9,10 @@
 
 // Headers for CppUnitTest
 #include "CppUnitTest.h"
+#include <stdlib.h>
+#include <crtdbg.h>
 
 // TODO: reference additional headers your program requires here
-#include <BaseLibs2.h>
 #include <Windows.h>
 #include <Shlwapi.h>
+#include <BaseLibs2.h>

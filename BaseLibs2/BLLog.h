@@ -95,11 +95,31 @@ extern "C" {
 	*/
 	void BLLog_Delete(PBLLog *pp);
 
-	BLWriteBuffer BLLog_Get(PBLLog p);
+	/*!
+	\brief get the write buffer in order to append new string to the currently selected
+		BLLog internal buffer.
+	\param p [in] BLLog object
+	\param wb [out] write buffer
+	\return error code
+	*/
+	DWORD BLLog_Get(PBLLog p, PBLWriteBuffer wb);
+
+	/*!
+	\brief get another write buffer. It is used when the previously gotten buffer is too
+		small. BLLog_GetAnother() flush the currently selected internal buffer if the flush
+		trigger is BLLogWriteTrigger_BufferFull.
+	\param p [in,out] BLLog object
+	\param wb [in,out] exported write buffer
+	\return error code gotten in writing log buffer to log file.
+	*/
+	DWORD BLLog_GetAnother(PBLLog p, PBLWriteBuffer wb);
+
+	/*
+	\brief discard the write buffer and 
+	*/
+	void BLLog_Cancel(PBLLog p);
 
 	DWORD BLLog_Release(PBLLog p, BLWriteBuffer writeBuffer);
-
-	DWORD BLLog_ReleaseAndSwitchBuffer(PBLLog p, BLWriteBuffer writeBuffer);
 
 	DWORD BLLog_Flush(PBLLog p);
 #if defined(__cplusplus)

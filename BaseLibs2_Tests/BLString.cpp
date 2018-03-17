@@ -10,6 +10,9 @@ namespace BaseLibs2_Tests
 	public:
 		static const char* u8str;
 		static const wchar_t* u16str;
+		static const wchar_t* testPath;
+		static const wchar_t* testPathMod0;
+		static const wchar_t* testPathMod1;
 
 		TEST_METHOD_INITIALIZE(InitTests)
 		{
@@ -44,9 +47,23 @@ namespace BaseLibs2_Tests
 			PBLArray p2 = BLString_wc2mbc(p);
 			Assert::AreEqual(p2->data.c, u8str);
 		}
+
+		TEST_METHOD(UTBLString_ModifyPath0)
+		{
+			PBLArray modified = BLString_ModifyPath0(testPath, 15);
+			Assert::AreEqual(testPathMod0, modified->data.wc);
+		}
+
+		TEST_METHOD(UTBLString_ModfyPath1)
+		{
+			PBLArray modified = BLString_ModifyPath1(testPath, 99);
+			Assert::AreEqual(testPathMod1, modified->data.wc);
+		}
 	};
 
 	const char* UT_BLString::u8str = u8"abc123こんにちは你好";
 	const wchar_t* UT_BLString::u16str = L"abc123こんにちは你好";
-
+	const wchar_t* UT_BLString::testPath = L"C:\\Windows\\System32\\cmd.exe";
+	const wchar_t* UT_BLString::testPathMod0 = L"C:\\Windows\\System32\\cmd.exe-15";
+	const wchar_t* UT_BLString::testPathMod1 = L"C:\\Windows\\System32\\cmd-99.exe";
 }
