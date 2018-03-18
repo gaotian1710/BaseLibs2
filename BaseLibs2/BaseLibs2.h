@@ -16,3 +16,4 @@
 #include "BLString.h"
 #include "BLStringBuilder.h"
 #include "BLWinPath.h"
+#include "BLSfo.h"

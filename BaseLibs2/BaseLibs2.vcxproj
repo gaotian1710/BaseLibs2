@@ -155,6 +155,7 @@
     <ClInclude Include="BLArray.h" />
     <ClInclude Include="BLError.h" />
     <ClInclude Include="BLLog.h" />
+    <ClInclude Include="BLSfo.h" />
     <ClInclude Include="BLString.h" />
     <ClInclude Include="BLStringBuilder.h" />
     <ClInclude Include="BLWinPath.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="BLArray.c" />
     <ClCompile Include="BLError.c" />
     <ClCompile Include="BLLog.c" />
+    <ClCompile Include="BLSfo.c" />
     <ClCompile Include="BLString.c" />
     <ClCompile Include="BLStringBuilder.c" />
     <ClCompile Include="BLWinPath.c" />

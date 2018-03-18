@@ -11,6 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseLibs2_Tests", "BaseLibs
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestApp", "TestApp\TestApp.vcxproj", "{5E02D84A-DB14-47F6-87A5-4836B2E65CBC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C55E45FF-7D6D-42D2-BF6B-1E8524D8001B} = {C55E45FF-7D6D-42D2-BF6B-1E8524D8001B}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{220A9519-27DD-4E16-BBD5-799135FC4330}"
 EndProject

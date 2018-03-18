@@ -118,6 +118,9 @@
       <AdditionalLibraryDirectories>$(OutDir);$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>KtmW32.lib;BaseLibs2.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>CScript $(ProjectDir)Util\Provision.js $(ProjectDir)ConstData $(SolutionDir)x64\Debug\Work</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -158,6 +161,9 @@
       <AdditionalLibraryDirectories>$(OutDir);$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>KtmW32.lib;BaseLibs2.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>CScript $(ProjectDir)Util\Provision.js $(ProjectDir)ConstData $(SolutionDir)x64\Debug\Work</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -174,6 +180,7 @@
     </ClCompile>
     <ClCompile Include="BLArray.cpp" />
     <ClCompile Include="BLString.cpp" />
+    <ClCompile Include="BLSfo.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

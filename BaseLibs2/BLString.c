@@ -36,7 +36,7 @@ PBLArray BLString_mbc2wc(PBLArray str)
 		}
 		else if (iResult == -2) // no wide character but valid
 		{
-			iResult == 0;
+			iResult = 0;
 			break;
 		}
 		else if (iResult == -3) // a wide character must be occupied but no source character is consumed.
@@ -51,7 +51,7 @@ PBLArray BLString_mbc2wc(PBLArray str)
 		}
 		else
 		{
-			iResult == -1;
+			iResult = -1;
 			break;
 		}
 	}
@@ -70,7 +70,7 @@ PBLArray BLString_mbc2wc(PBLArray str)
 	{
 		if (iResult == -2) // no wide character but valid
 		{
-			iResult == 0;
+			iResult = 0;
 			break;
 		}
 		else if (iResult == -3) // a wide character must be occupied but no source character is consumed.

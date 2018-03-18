@@ -42,6 +42,9 @@
     <ClInclude Include="BLLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BLSfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BLLog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BLSfo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
