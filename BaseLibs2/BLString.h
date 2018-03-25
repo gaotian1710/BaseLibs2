@@ -42,7 +42,7 @@ extern "C" {
 	\param num [in] 0 or positive integer less than 100; i.e. representable in two digits
 	\return a new path string
 	*/
-	PBLArray BLString_ModifyPath0(const wchar_t* wstr, int i);
+	PBLArray BLString_ModifyPath0(const wchar_t* wstr, unsigned int i);
 
 	/*!
 	\brief modify a file path appending decimal number at the end of filename base
@@ -50,7 +50,30 @@ extern "C" {
 	\param num [in] 0 or positive integer less than 100; i.e. representable in two digits
 	\return a new path string
 	*/
-	PBLArray BLString_ModifyPath1(const wchar_t* wstr, int i);
+	PBLArray BLString_ModifyPath1(const wchar_t* wstr, unsigned int i);
+
+	/*!
+	\brief calculate 16 bit hash code of array of anything
+	\param str [in] array of anything
+	\return 16 bit hash number
+	*/
+	uint16_t BLString_Hash16(PBLArray p);
+
+	uint16_t BLString_Hash16raw(const wchar_t* p);
+
+	/*!
+	\brief embed a string between two double quotation marks.
+	\param wstr [in] source string of wide characters
+	\return result string embedded between double quoatation marks.
+	*/
+	PBLArray BLString_CsvDoubleQuotedString(PCBLArray wstr);
+
+	/*!
+	\brief embed a string between two double quotation marks.
+	\param wstr [in] source string of wide characters
+	\return result string embedded between double quoatation marks.
+	*/
+	PBLArray BLString_CsvDoubleQuatedStringRaw(const wchar_t* wstr);
 #if defined(__cplusplus)
 }
 #endif

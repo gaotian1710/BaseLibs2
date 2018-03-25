@@ -15,8 +15,50 @@ typedef enum {
 	BLType_d,
 	BLType_fc,
 	BLType_dc,
-	BLType_ptr
+	BLType_ptr,
+	BLType_type
 } BLTypes;
+
+
+typedef union _BLData1 {
+	char c;
+	wchar_t wc;
+	int8_t i8;
+	int16_t i16;
+	int32_t i32;
+	int64_t i64;
+	uint8_t ui8;
+	uint16_t ui16;
+	uint32_t ui32;
+	uint64_t ui64;
+	float f;
+	double d;
+	_Fcomplex fc;
+	_Dcomplex dc;
+	int8_t* ptr;
+	BLTypes type;
+} BLData1, *PBLData1;
+
+typedef const BLData1 *PCBLData1;
+
+typedef union _BLData {
+	char c[0];
+	wchar_t wc[0];
+	int8_t i8[0];
+	int16_t i16[0];
+	int32_t i32[0];
+	int64_t i64[0];
+	uint8_t ui8[0];
+	uint16_t ui16[0];
+	uint32_t ui32[0];
+	uint64_t ui64[0];
+	float f[0];
+	double d[0];
+	_Fcomplex fc[0];
+	_Dcomplex dc[0];
+	int8_t* ptr[0];
+	BLTypes type[0];
+} BLData, *PBLData;
 
 typedef union {
 	char* c;
@@ -34,6 +76,7 @@ typedef union {
 	_Fcomplex* fc;
 	_Dcomplex* dc;
 	int8_t** ptr;
+	BLTypes* type;
 } BLPtr, *PBLPtr;
 
 typedef union {
@@ -52,25 +95,9 @@ typedef union {
 	const _Fcomplex* fc;
 	const _Dcomplex* dc;
 	const int8_t** ptr;
+	const BLTypes* type;
 } BLCPtr, *PBLCPtr;
 
-typedef union {
-	char c[0];
-	wchar_t wc[0];
-	int8_t i8[0];
-	int16_t i16[0];
-	int32_t i32[0];
-	int64_t i64[0];
-	uint8_t ui8[0];
-	uint16_t ui16[0];
-	uint32_t ui32[0];
-	uint64_t ui64[0];
-	float f[0];
-	double d[0];
-	_Fcomplex fc[0];
-	_Dcomplex dc[0];
-	int8_t* ptr[0];
-} BLData, *PBLData;
 
 typedef struct {
 	wchar_t* pwc;
@@ -84,11 +111,15 @@ typedef struct {
 	BLData data;
 } BLArray, *PBLArray;
 
+typedef const BLArray *PCBLArray;
+
 typedef struct {
 	BLPtr putter;
 	BLCPtr getter;
 	BLArray arrayData;
 } BLBuffer, *PBLBuffer;
+
+typedef const BLBuffer *PCBLBuffer;
 
 #if defined(__cplusplus)
 extern "C" {
@@ -97,19 +128,31 @@ extern "C" {
 
 	void BLArray_Delete(PBLArray *pp);
 
-	size_t BLArray_ByteCount(PBLArray p);
+	size_t BLArray_ByteCount(PCBLArray p);
 
-	size_t BLArray_UnitCount(PBLArray p, BLTypes t);
+	size_t BLArray_UnitCount(PCBLArray p, BLTypes t);
 
 	PBLBuffer BLBuffer_New(size_t cUnits, BLTypes t);
 
 	void BLBuffer_Delete(PBLBuffer *pp);
 
-	size_t BLBuffer_UnitCount(PBLBuffer p, BLTypes t);
+	size_t BLBuffer_UnitCount(PCBLBuffer p, BLTypes t);
 
-	PBLBuffer BLBuffer_ReadFileA(PBLArray utf8Filename);
+	/*!
+	\brief read data from a file
+	\param utf8Filename [in] filename given to win32 CreateFile() or std-c open()
+	\param ppData [out] pointer pointer to the data array to fill with the data read from the file.
+	\return error code can be std-c errno or win32 error code.
+	*/
+	BLError BLBuffer_ReadFileA(PCBLArray utf8Filename, PBLArray* ppData);
 
-	PBLBuffer BLBuffer_ReadFileW(PBLArray utf16Filename);
+	/*!
+	\brief read data from a file
+	\param utf16Filename [in] filename given to win32 CreateFile() or std-c open()
+	\param ppData [out] pointer pointer to the data array to fill with the data read from the file.
+	\return error code can be std-c errno or win32 error code.
+	*/
+	BLError BLBuffer_ReadFileW(PCBLArray utf16Filename, PBLArray* ppData);
 
 	void BLBuffer_Clear(PBLBuffer p);
 #if defined(__cplusplus)

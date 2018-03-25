@@ -4,154 +4,110 @@
 */
 
 typedef enum {
-	BLLogLevel_Fatal,
-	BLLogLevel_Error,
-	BLLogLevel_Info,
-	BLLogLevel_Debug,
-	BLLogLevel_Invalid,
-} BLLogLevel;
+	BLLogMode_AFO, // auto flush and open only flushing
+	BLLogMode_AFCO, // continuously opened
+	BLLogMode_EFO // each time flush and open
+} BLLogMode;
 
 typedef enum {
-	BLLogWriteTrigger_Flush,
-	BLLogWriteTrigger_BufferFull,
-	BLLogWriteTrigger_Invalid,
-} BLLogWriteTrigger;
+	BLLogType_c = BLType_c,
+	BLLogType_wc = BLType_wc,
+	BLLogType_i8 = BLType_i8,
+	BLLogType_i16 = BLType_i16,
+	BLLogType_i32 = BLType_i32,
+	BLLogType_i64 = BLType_i64,
+	BLLogType_ui8 = BLType_ui8,
+	BLLogType_ui16 = BLType_ui16,
+	BLLogType_ui32 = BLType_ui32,
+	BLLogType_ui64 = BLType_ui64,
+	BLLogType_f = BLType_f,
+	BLLogType_d = BLType_d,
+	BLLogType_fc = BLType_fc,
+	BLLogType_dc = BLType_dc,
+	BLLogType_ptr = BLType_ptr,
+	BLLogType_Array_c,
+	BLLogType_Array_wc,
+	BLLogType_Array_i8,
+	BLLogType_Array_i16,
+	BLLogType_Array_i32,
+	BLLogType_Array_i64,
+	BLLogType_Array_ui8,
+	BLLogType_Array_ui16,
+	BLLogType_Array_ui32,
+	BLLogType_Array_ui64,
+	BLLogType_Array_f,
+	BLLogType_Array_d,
+	BLLogType_Array_fc,
+	BLLogType_Array_dc,
+	BLLogType_Array_ptr
+} BLLogType, *PBLLogType;
 
-typedef enum {
-	BLLogIniSec_log
-} BLLogIniSec;
+typedef struct {
+	struct timespec time;
+	DWORD
+		pid,
+		tid;
+	uint16_t
+		proj_id,
+		src_id,
+		src_line;
+	BLTypes type;
+	BLError err;
+} BLLogHeader, *PBLLogHeader;
 
-typedef enum {
-	BLLogIniItem_path,
-	BLLogIniItem_level,
-	BLLogIniItem_trigger,
-	BLLogIniItem_bufsize,
-	BLLogIniItem_filesize,
-	BLLogIniItem_rolling,
-} BLLogIniItem;
+typedef struct {
+	BLLogHeader header;
+	BLData1 data;
+} BLLogData, *PBLLogData;
 
-#define BLLOG_ROLLING_MAX	4
+typedef const BLLogData *PCBLLogData;
 
-typedef struct _BLLogIni {
-	BLLogLevel ll;
-	BLLogWriteTrigger lwt;
-	size_t cFiles;
-	size_t cbFile;
-	size_t cbBuf;
+typedef struct {
 	PBLArray filePath;
-} BLLogIni, *PBLLogIni;
+	union {
+		HANDLE hFile; // win32 file handle
+		int iFD; // std-c file descriptor
+	} file;
+	BLLogMode logMode;
+} BLLogWriter, *PBLLogWriter;
 
-typedef const BLLogIni *PCBLLogIni;
-
-typedef struct _BLLog {
-	// my own data
-	CRITICAL_SECTION cs;
-	DWORD processId;
-	PBLArray moduleName; // module base name and extension (*.exe, *.dll, etc.)
-
-	// depending on .ini file
-	PBLLogIni ini;
-	size_t iBuf; // buffer index (iBuf = 0..1)
-	PBLBuffer buf[2];
-} BLLog, *PBLLog;
-
+typedef struct {
+	BLLogHeader header; // header template
+	BLLogWriter writer;
+	PCBLLogData end;
+	PBLLogData wrptr;
+	BLLogData record[0];
+} BLLogger, *PBLLogger;
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
-	/*!
-	\brief read ini file
-	\param pp [out] null pointer or any allocated pointer. Heap memory block is always 
-		allocated in every call.
-	\param iniFilePath [in] ini file absolute path
-	\return win32 error code
-	*/
-	DWORD BLLogIni_Read(PBLLogIni *pp, const wchar_t* iniFilePath);
+	BLError BLLogger_New(
+		const wchar_t *filePath,
+		size_t cRecord,
+		BLLogMode logMode,
+		const wchar_t* proj_name,
+		PBLLogger* ppLogger);
 
-	/*!
-	\brief free the memory block allocated to *pp
-	\param pp [in] pointer pointer to BLLogIni object.
-	*/
-	void BLLogIni_Delete(PBLLogIni* pp);
+	void BLLogger_Delete(PBLLogger* ppLogger);
 
-	/*!
-	\brief duplicate an object.
-	\param p [in] 
-	*/
-	PBLLogIni BLLogIni_Dup(PCBLLogIni p);
+	BLError BLLogger_Put(
+		PBLLogger pLogger,
+		uint16_t src_id,
+		uint16_t src_line,
+		BLLogType t,
+		void* pvData);
 
-	/*!
-	\brief create a new logger object
-	\param pp [out] pointer pointer to the newly created logger object
-	\param ini [in] initialization parameter
-	\param modNameCandidates [in] module name candidates
-	\return win32 error code
-	*/
-	DWORD BLLog_New(PBLLog *pp, PCBLLogIni ini, const wchar_t* *modNameCandidates);
+	BLError BLLogger_PutMT(
+		PBLLogger pLogger,
+		DWORD tid,
+		uint16_t src_id,
+		uint16_t src_line,
+		BLLogType t,
+		void* pvData);
 
-	/*!
-	\brief release resources used by the logger object.
-	\param pp [in,out] pointer pointer to logger object to release.
-	*/
-	void BLLog_Delete(PBLLog *pp);
 
-	/*!
-	\brief get the write buffer in order to append new string to the currently selected
-		BLLog internal buffer.
-	\param p [in] BLLog object
-	\param wb [out] write buffer
-	\return error code
-	*/
-	DWORD BLLog_Get(PBLLog p, PBLWriteBuffer wb);
-
-	/*!
-	\brief get another write buffer. It is used when the previously gotten buffer is too
-		small. BLLog_GetAnother() flush the currently selected internal buffer if the flush
-		trigger is BLLogWriteTrigger_BufferFull.
-	\param p [in,out] BLLog object
-	\param wb [in,out] exported write buffer
-	\return error code gotten in writing log buffer to log file.
-	*/
-	DWORD BLLog_GetAnother(PBLLog p, PBLWriteBuffer wb);
-
-	/*
-	\brief discard the write buffer and 
-	*/
-	void BLLog_Cancel(PBLLog p);
-
-	DWORD BLLog_Release(PBLLog p, BLWriteBuffer writeBuffer);
-
-	DWORD BLLog_Flush(PBLLog p);
+	BLError BLLogger_Flush(PBLLogger pLogger);
 #if defined(__cplusplus)
 }
 #endif
-
-#define BLLOG_DATETIME_FORMAT_DESCRIPTOR	L"%04d-%02d-%02dT%02d:%02d:%02d.%03dZ,"
-#define BLLOG_DATETIME_TEMPLATE				L"YYYY-MM-DDThh:mm:ss.sssZ,"
-#define BLLOG_DATETIME_LENGTH				wcslen(BLLOG_DATETIME_TEMPLATE)
-#define BLLOG_LOGLEVEL_FORMAT_DESCRIPTOR	L"%1d,"
-#define BLLOG_LOGLEVEL_TEMPLATE				L"9,"
-#define BLLOG_LOGLEVEL_LENGTH				wcslen(BLLOG_LOGLEVEL_TEMPLATE)
-#define BLLOG_MODULENAME_FORMAT_DESCRIPTOR	L"%ws,"
-#define BLLOG_MODULENAME_LENGTHESTIMATE		33
-#define BLLOG_PROCESSID_FORMAT_DESCRIPTOR	L"%04d,"
-#define BLLOG_PROCESSID_TEMPLATE			L"9999,"
-#define BLLOG_PROCESSID_LENGTH				wcslen(BLLOG_PROCESSID_TEMPLATE)
-#define BLLOG_CODETYPE_FORMAT_DESCRIPTOR	L"%1d,"
-#define BLLOG_CODETYPE_TEMPLATE				L"9,"
-#define BLLOG_CODETYPE_LENGTH				wcslen(BLLOG_CODETYPE_TEMPLATE)
-#define BLLOG_CODE_FORMAT_DESCRIPTOR		L"0x%08x"
-#define BLLOG_CODE_TEMPLATE					L"0xffffffff,"
-#define BLLOG_CODE_LENGTH					wcslen(BLLOG_CODE_TEMPLATE)
-#define BLLOG_SOURCEFILE_FORMAT_DESCRIPTOR	L"%hs,"
-#define BLLOG_SOURCEFILE_LENGTHESTIMATE		33
-#define BLLOG_SOURCELINE_FORMAT_DESCRIPTOR	L"%d,"
-#define BLLOG_SOURCELINE_TEMPLATE			L"9999,"
-#define BLLOG_SOURCELINE_LENGTH				wcslen(BLLOG_SOURCELINE_TEMPLATE)
-#define BLLOG_HEADER_FORMAT_DESCRIPTOR	\
-	BLLOG_DATETIME_FORMAT_DESCRIPTOR \
-	BLLOG_LOGLEVEL_FORMAT_DESCRIPTOR \
-	BLLOG_MODULENAME_FORMAT_DESCRIPTOR \
-	BLLOG_PROCESSID_FORMAT_DESCRIPTOR
-#define BLLOG_HEADER_LENGTH(modname)	\
-	(BLLOG_DATETIME_LENGTH + BLLOG_LOGLEVEL_LENGTH + wcslen(modname) + BLLOG_PROCESSID_LENGTH)

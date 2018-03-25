@@ -106,6 +106,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/D "_CRTDBG_MAP_ALLOC"  /D "_USE_64BIT_TIME_T" %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,6 +143,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/D "_USE_64BIT_TIME_T" %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,10 +156,12 @@
     <ClInclude Include="BaseLibs2.h" />
     <ClInclude Include="BLArray.h" />
     <ClInclude Include="BLError.h" />
+    <ClInclude Include="BLFsm.h" />
     <ClInclude Include="BLLog.h" />
     <ClInclude Include="BLSfo.h" />
     <ClInclude Include="BLString.h" />
     <ClInclude Include="BLStringBuilder.h" />
+    <ClInclude Include="BLTuple.h" />
     <ClInclude Include="BLWinPath.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -165,10 +169,12 @@
   <ItemGroup>
     <ClCompile Include="BLArray.c" />
     <ClCompile Include="BLError.c" />
+    <ClCompile Include="BLFsm.c" />
     <ClCompile Include="BLLog.c" />
     <ClCompile Include="BLSfo.c" />
     <ClCompile Include="BLString.c" />
     <ClCompile Include="BLStringBuilder.c" />
+    <ClCompile Include="BLTuple.c" />
     <ClCompile Include="BLWinPath.c" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "BLError.h"
 #include "BLArray.h"
 #include "BLString.h"
 
@@ -146,7 +147,7 @@ PBLArray BLString_ModifyPath0(const wchar_t* wstr, unsigned int i)
 	return p;
 }
 
-PBLArray BLString_ModifyPath1(const wchar_t * wstr, int i)
+PBLArray BLString_ModifyPath1(const wchar_t * wstr, unsigned int i)
 {
 	PBLArray p = NULL;
 	if (i >= 100) return p;
@@ -168,4 +169,76 @@ PBLArray BLString_ModifyPath1(const wchar_t * wstr, int i)
 		BLArray_Delete(&extension);
 	}
 	return p;
+}
+
+uint16_t BLString_Hash16(PBLArray p)
+{
+	uint32_t h = 0;
+	uint8_t* s = p->data.c;
+	while (s != p->end.c)
+	{
+		h = h * 23131 + *s;
+		++s;
+	}
+	return (uint16_t)(h & (uint32_t)0xffff);
+}
+
+uint16_t BLString_Hash16raw(const wchar_t * p)
+{
+	uint32_t h = 0;
+	uint8_t* p0 = (uint8_t*)p;
+	uint8_t* p1 = (uint8_t*)(p + wcslen(p));
+	while (p0 != p1)
+	{
+		h = h * 23131 + *p0;
+		++p0;
+	}
+	return (uint16_t)(h & (uint32_t)0xffff);
+}
+
+/*
+count characters in a string.
+\param wstr [in] wide character string to investigate.
+\param wcToCount [in] character to count
+\return number of the target character in the string
+*/
+size_t BLString_CountChar(const wchar_t* wstr, wchar_t wcToCount)
+{
+	size_t c = 0;
+	const wchar_t *p = wstr;
+	while (*p != L'\0')
+	{
+		if (*p++ == wcToCount)
+		{
+			++c;
+		}
+	}
+	return c;
+}
+
+PBLArray BLString_CsvDoubleQuotedString(PCBLArray wstr)
+{
+	return BLString_CsvDoubleQuatedStringRaw(wstr->data.wc);
+}
+
+PBLArray BLString_CsvDoubleQuatedStringRaw(const wchar_t * wstr)
+{
+	const wchar_t dq = L'"';
+	const wchar_t wcNull = L'\0';
+	size_t ccNew = wcslen(wstr) + BLString_CountChar(wstr, dq) + 3;
+	PBLArray newStr = BLArray_New(ccNew, BLType_wc);
+	const wchar_t* psrc = wstr;
+	wchar_t *pdst = newStr->data.wc;
+	*pdst++ = dq;
+	while (*psrc != wcNull)
+	{
+		if (*psrc == dq)
+		{
+			*pdst++ = dq;
+		}
+		*pdst++ = *psrc++;
+	}
+	*pdst++ = dq;
+	*pdst = wcNull;
+	return newStr;
 }

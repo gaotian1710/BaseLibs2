@@ -12,6 +12,7 @@
 #include <errno.h>
 
 // BaseLibs2 members
+#include "BLError.h"
 #include "BLArray.h"
 #include "BLString.h"
 #include "BLStringBuilder.h"

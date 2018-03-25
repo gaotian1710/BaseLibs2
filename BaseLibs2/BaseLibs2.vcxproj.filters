@@ -45,6 +45,12 @@
     <ClInclude Include="BLSfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BLTuple.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BLFsm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +75,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BLSfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BLTuple.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BLFsm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

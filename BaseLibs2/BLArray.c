@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "BLError.h"
 #define _BLARRAY_C
 #include "BLArray.h"
 
@@ -17,7 +18,9 @@ size_t BLUnitSizes[] = {
 	sizeof(double),
 	sizeof(_Fcomplex),
 	sizeof(_Dcomplex),
-	sizeof(int8_t*)
+	sizeof(int8_t*),
+	sizeof(BLData1),
+	sizeof(BLTypes)
 };
 
 void BLArray_Init(PBLArray p, size_t cbPureData)
@@ -43,12 +46,12 @@ void BLArray_Delete(PBLArray *pp)
 	}
 }
 
-size_t BLArray_ByteCount(PBLArray p)
+size_t BLArray_ByteCount(PCBLArray p)
 {
 	return (p->end.c - p->data.c);
 }
 
-size_t BLArray_UnitCount(PBLArray p, BLTypes t)
+size_t BLArray_UnitCount(PCBLArray p, BLTypes t)
 {
 	return BLArray_ByteCount(p) / BLUnitSizes[t];
 }
@@ -73,7 +76,7 @@ void BLBuffer_Delete(PBLBuffer * pp)
 	}
 }
 
-size_t BLBuffer_UnitCount(PBLBuffer p, BLTypes t)
+size_t BLBuffer_UnitCount(PCBLBuffer p, BLTypes t)
 {
 	return BLArray_UnitCount(&(p->arrayData), t);
 }

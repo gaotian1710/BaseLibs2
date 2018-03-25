@@ -59,6 +59,16 @@ namespace BaseLibs2_Tests
 			PBLArray modified = BLString_ModifyPath1(testPath, 99);
 			Assert::AreEqual(testPathMod1, modified->data.wc);
 		}
+
+		TEST_METHOD(UTBLSring_CsvDoubleQuotedString)
+		{
+			PBLArray psrc = BLString_NewW(L"abc\"def\"ghi", 0);
+			LPCWSTR refStr = L"\"abc\"\"def\"\"ghi\"";
+			PBLArray dqed = BLString_CsvDoubleQuotedString(psrc);
+			Assert::AreEqual(refStr, dqed->data.wc, L"double quoted string");
+			Assert::AreEqual(wcslen(refStr), (size_t)(dqed->end.wc - dqed->data.wc - 1),
+				L"string length and buffer size");
+		}
 	};
 
 	const char* UT_BLString::u8str = u8"abc123こんにちは你好";
