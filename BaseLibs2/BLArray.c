@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BLError.h"
+#include "BLTypes.h"
 #define _BLARRAY_C
 #include "BLArray.h"
 

@@ -162,6 +162,8 @@
     <ClInclude Include="BLString.h" />
     <ClInclude Include="BLStringBuilder.h" />
     <ClInclude Include="BLTuple.h" />
+    <ClInclude Include="BLTuplePrivate.h" />
+    <ClInclude Include="BLTypes.h" />
     <ClInclude Include="BLWinPath.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -175,6 +177,7 @@
     <ClCompile Include="BLString.c" />
     <ClCompile Include="BLStringBuilder.c" />
     <ClCompile Include="BLTuple.c" />
+    <ClCompile Include="BLTypes.c" />
     <ClCompile Include="BLWinPath.c" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -54,7 +54,7 @@ extern "C" {
 	/*!
 	\brief Main controller of transition of the state machine.
 	*/
-	BLFsmResult BLFsm_Transit(PBLFsm fsm, PBLFsm msg);
+	BLFsmResult BLFsm_Transit(PBLFsm fsm, PBLFsmMsg msg);
 
 	/*!
 	\brief Create a new object of BLFsmMsg
