@@ -21,7 +21,11 @@ size_t BLUnitSizes[] = {
 	sizeof(_Dcomplex),
 	sizeof(int8_t*),
 	sizeof(BLData1),
-	sizeof(BLTypes)
+	sizeof(BLTypes),
+	sizeof(char*),
+	sizeof(wchar_t*),
+	sizeof(char*),
+	sizeof(wchar_t*),
 };
 
 void BLArray_Init(PBLArray p, size_t cbPureData)

@@ -18,5 +18,9 @@ const wchar_t* const BLTypeLabels[] = {
 	L"BLType_fc",
 	L"BLType_dc",
 	L"BLType_ptr",
-	L"BLType_type"
+	L"BLType_type",
+	L"BLType_ccstr",
+	L"BLType_cwcstr",
+	L"BLType_cstr",
+	L"BLType_wcstr"
 };

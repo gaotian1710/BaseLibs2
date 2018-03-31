@@ -189,7 +189,41 @@ int BLTupleFormatter_type(
 		buffer, bufferLength, bufferLength - 1, formatStrings[pos], BLTypeLabels[data->type]);
 }
 	
-const BLTupleFormatter formatters[] = {
+int BLTupleFormatter_ccstr(
+	BLTupleColumnPosition pos, wchar_t* buffer, size_t bufferLength, const BLData1* data)
+{
+	const wchar_t* formatStrings[] = {
+		L"%hs\r\n", L"%hs", L",%hs", L",%hs\r\n"
+	};
+	PBLArray cstr = BLString_NewA(data->ccstr, 0);
+	PBLArray wcstr = BLString_mbc2wc(cstr);
+	BLArray_Delete(&cstr);
+	PBLArray dqedwcstr = BLString_CsvDoubleQuotedString(wcstr);
+	BLArray_Delete(&wcstr);
+	int i = _snwprintf_s(
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], dqedwcstr->data.wc
+	);
+	BLArray_Delete(&dqedwcstr);
+	return i;
+}
+
+int BLTupleFormatter_cwcstr(
+	BLTupleColumnPosition pos, wchar_t* buffer, size_t bufferLength, const BLData1* data)
+{
+	const wchar_t* formatStrings[] = {
+		L"%ws\r\n", L"%ws", L",%ws", L",%ws\r\n"
+	};
+	PBLArray dqedString = BLString_CsvDoubleQuatedStringRaw(data->cwcstr);
+
+	int i = _snwprintf_s(
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], dqedString->data.wc
+	);
+	BLArray_Delete(&dqedString);
+	return i;
+}
+
+
+const BLTupleFormatter BLTuple_DefaultFormatters[] = {
 	BLTupleFormatter_c,
 	BLTupleFormatter_wc,
 	BLTupleFormatter_i8,
@@ -205,14 +239,22 @@ const BLTupleFormatter formatters[] = {
 	BLTupleFormatter_fc,
 	BLTupleFormatter_dc,
 	BLTupleFormatter_ptr,
-	BLTupleFormatter_type
+	BLTupleFormatter_type,
+	BLTupleFormatter_ccstr,
+	BLTupleFormatter_cwcstr,
+	BLTupleFormatter_ccstr,
+	BLTupleFormatter_cwcstr
 };
 
 // implementations
 
 #pragma endregion default formatters
 
-int BLTuple_PreFormat(PBLArray work, PCBLTuple tuple)
+/*
+try to format tuple into work.
+return -1 if it fails to format due to shortage of buffer in work.
+*/
+int BLTuple_PreFormat(PBLArray work, PCBLTuple tuple, const BLTupleFormatter* formatters)
 {
 	int i = -1;
 	int available = (int)BLArray_UnitCount(work, BLType_wc);
@@ -232,16 +274,16 @@ int BLTuple_PreFormat(PBLArray work, PCBLTuple tuple)
 	return i;
 }
 
-int BLTuple_Format(PBLArray * ppBuffer, PCBLTuple tuple)
+int BLTuple_Format(PBLArray * ppBuffer, PCBLTuple tuple, const BLTupleFormatter* formatters)
 {
 	size_t ccNew = BLTuple_Count(tuple) * 16;
 	int i = -1;
 	PBLArray work = NULL;
 	do {
-		do {
+		do { // try to preformat until success.
 			work = BLArray_New(ccNew, BLType_wc);
 			if (work == NULL) break; // error
-			i = BLTuple_PreFormat(work, tuple);
+			i = BLTuple_PreFormat(work, tuple, formatters);
 			if (i < 0)
 			{
 				BLArray_Delete(&work);
@@ -250,16 +292,16 @@ int BLTuple_Format(PBLArray * ppBuffer, PCBLTuple tuple)
 		} while (i < 0);
 		if (i < 0) break; // error
 
-		if (BLArray_UnitCount(*ppBuffer, BLType_wc) < (wcslen(work->data.wc) + 1))
+		// if *ppBuffer has not been initialized or has insufficient size,
+		// it is initialized with a sufficient size.
+		if ((*ppBuffer) == NULL ||
+			(BLArray_UnitCount(*ppBuffer, BLType_wc) < (wcslen(work->data.wc) + 1)))
 		{ 	// *ppBuffer has insufficient size
 			BLArray_Delete(ppBuffer);
 			*ppBuffer = BLString_NewW(work->data.wc, 0);
 		}
-		else
-		{	// *ppBuffer has sufficient size
-			wcscpy_s((*ppBuffer)->data.wc, BLArray_UnitCount(*ppBuffer, BLType_wc),
-				work->data.wc);
-		}
+		wcscpy_s((*ppBuffer)->data.wc, BLArray_UnitCount(*ppBuffer, BLType_wc),
+			work->data.wc);
 		i = (int)wcslen((*ppBuffer)->data.wc);
 	} while (false);
 	BLArray_Delete(&work);

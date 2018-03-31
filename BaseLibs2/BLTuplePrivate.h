@@ -51,6 +51,12 @@ extern "C" {
 	int BLTupleFormatter_type(
 		BLTupleColumnPosition pos, wchar_t* buffer, size_t bufferLength, const BLData1* data);
 
+	int BLTupleFormatter_ccstr(
+		BLTupleColumnPosition pos, wchar_t* buffer, size_t bufferLength, const BLData1* data);
+
+	int BLTupleFormatter_cwcstr(
+		BLTupleColumnPosition pos, wchar_t* buffer, size_t bufferLength, const BLData1* data);
+
 #if defined(__cplusplus)
 }
 #endif

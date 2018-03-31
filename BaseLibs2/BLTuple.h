@@ -36,7 +36,13 @@ extern "C" {
 
 	size_t BLTuple_Count(PCBLTuple p);
 
-	int BLTuple_Format(PBLArray *ppBuffer, PCBLTuple tuple);
+	/*!
+	\brief format tuple into wide character string.
+	\param ppBuffer [out] output buffer of wide character string
+	\param tuple [in] a tuple to format
+	\return wide character count of the formatted string, excluding termination NULL.
+	*/
+	int BLTuple_Format(PBLArray *ppBuffer, PCBLTuple tuple, const BLTupleFormatter* formatters);
 #if defined(__cplusplus)
 }
 #endif

@@ -15,7 +15,11 @@ typedef enum {
 	BLType_fc,
 	BLType_dc,
 	BLType_ptr,
-	BLType_type
+	BLType_type,
+	BLType_ccstr,
+	BLType_cwcstr,
+	BLType_cstr,
+	BLType_wcstr
 } BLTypes;
 
 
@@ -36,6 +40,10 @@ typedef union _BLData1 {
 	_Dcomplex dc;
 	int8_t* ptr;
 	BLTypes type;
+	const char* ccstr;
+	const wchar_t* cwcstr;
+	char* cstr;
+	wchar_t* wcstr;
 } BLData1, *PBLData1;
 
 typedef const BLData1 *PCBLData1;
@@ -57,6 +65,10 @@ typedef union _BLData {
 	_Dcomplex dc[0];
 	int8_t* ptr[0];
 	BLTypes type[0];
+	const char* ccstr[0];
+	const wchar_t* cwcstr[0];
+	char* cstdr[0];
+	wchar_t* wcstr[0];
 } BLData, *PBLData;
 
 typedef union {
@@ -76,6 +88,10 @@ typedef union {
 	_Dcomplex* dc;
 	int8_t** ptr;
 	BLTypes* type;
+	const char* *ccstr;
+	const wchar_t* *cwcstr;
+	char* *cstr;
+	wchar_t* *wcstr;
 } BLPtr, *PBLPtr;
 
 typedef union {
@@ -95,6 +111,10 @@ typedef union {
 	const _Dcomplex* dc;
 	const int8_t** ptr;
 	const BLTypes* type;
+	const char* const *ccstr;
+	const wchar_t* const *cwcstr;
+	char* const *cstr;
+	wchar_t* const *wcstr;
 } BLCPtr, *PBLCPtr;
 
 #if !defined(_BLTypes_c)
