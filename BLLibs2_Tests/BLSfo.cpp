@@ -59,7 +59,7 @@ namespace BaseLibs2_Tests
 			{
 				Assert::Fail(L"Copy source file does not exist at $(OutDir)work\\BLFso\\CopySrc0.dat");
 			}
-			wchar_t* src0 = wcsdup(workPath);
+			wchar_t* src0 = _wcsdup(workPath);
 			*(PathFindFileName(workPath)) = L'\0';
 			PathAppend(workPath, L"CopyDst0.dat");
 			if (PathFileExists(workPath))
@@ -91,7 +91,7 @@ namespace BaseLibs2_Tests
 			{
 				Assert::Fail(L"Copy source file does not exist at $(OutDir)work\\BLFso\\CopySrc0.dat");
 			}
-			wchar_t* src0 = wcsdup(workPath);
+			wchar_t* src0 = _wcsdup(workPath);
 			*(PathFindFileName(workPath)) = L'\0';
 			PathAppend(workPath, L"MoveDst0.dat");
 			Assert::AreEqual(FALSE, PathFileExists(workPath),

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BLError.h"
+#include "BLTypes.h"
 #include "BLArray.h"
 #include "BLFsm.h"
 
@@ -24,12 +25,12 @@ BLFsmResult SHNone(PBLFsm fsm, PBLFsmMsg msg)
 	return BLFsmResult_Ignored;
 }
 
-BLFsmResult BLFsm_Transit(PBLFsm fsm, PBLFsm msg)
+BLFsmResult BLFsm_Transit(PBLFsm fsm, PBLFsmMsg msg)
 {
 	fsm->msg = msg;
-	PBLFsmState oldState = fsm->state;
+	PCBLFsmState oldState = fsm->state;
 	BLFsmResult result = fsm->state->sh(fsm, msg);
-	if (result == BLFsm_Transit)
+	if (result == BLFsmResult_Transited)
 	{
 		oldState->ahExit(fsm, msg);
 		fsm->state->ahEnter(fsm, msg);

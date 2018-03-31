@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "BLTypes.h"
 #include "BLError.h"
 #include "BLArray.h"
 #include "BLString.h"
