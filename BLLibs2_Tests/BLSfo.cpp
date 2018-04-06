@@ -33,19 +33,19 @@ namespace BaseLibs2_Tests
 		/*!
 		\brief delete not existing file and fail
 		*/
-		TEST_METHOD(Delete_Fail)
-		{
-			wchar_t workPath[MAX_PATH];
-			wcscpy_s(workPath, MAX_PATH, TestDataPath);
-			PathAppend(workPath, L"DeleteTarget1.dat");
-			if (!PathFileExists(workPath))
-			{
-				Assert::Fail(L"Delete target file does not exist at $(OutDir)work\\BLFso\\DeleteTarget1.dat");
-			}
-			DWORD err = BLSfo_DeleteFile(workPath);
-			Assert::AreEqual((DWORD)ERROR_ACCESS_DENIED, err, L"BLSfo_DeleteFile(readonly-path) return code");
-			Assert::AreEqual((BOOL)TRUE, PathFileExists(workPath), L"file existence just after BLSfo_DeleteFile()");
-		}
+		//TEST_METHOD(Delete_Fail)
+		//{
+		//	wchar_t workPath[MAX_PATH];
+		//	wcscpy_s(workPath, MAX_PATH, TestDataPath);
+		//	PathAppend(workPath, L"DeleteTarget1.dat");
+		//	if (!PathFileExists(workPath))
+		//	{
+		//		Assert::Fail(L"Delete target file does not exist at $(OutDir)work\\BLFso\\DeleteTarget1.dat");
+		//	}
+		//	DWORD err = BLSfo_DeleteFile(workPath);
+		//	Assert::AreEqual((DWORD)ERROR_ACCESS_DENIED, err, L"BLSfo_DeleteFile(readonly-path) return code");
+		//	Assert::AreEqual((BOOL)TRUE, PathFileExists(workPath), L"file existence just after BLSfo_DeleteFile()");
+		//}
 
 		/*!
 		\brief copy normally

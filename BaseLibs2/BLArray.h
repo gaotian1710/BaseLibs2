@@ -26,13 +26,7 @@ typedef const BLBuffer *PCBLBuffer;
 #if defined(__cplusplus)
 extern "C" {
 #endif
-	PBLArray BLArray_New(size_t cUnits, BLTypes t);
-
-	void BLArray_Delete(PBLArray *pp);
-
-	size_t BLArray_ByteCount(PCBLArray p);
-
-	size_t BLArray_UnitCount(PCBLArray p, BLTypes t);
+	PBLArray BLArray_Init(PBLArray p, size_t cbPureData);
 
 	PBLBuffer BLBuffer_New(size_t cUnits, BLTypes t);
 
@@ -60,7 +54,6 @@ extern "C" {
 #if defined(__cplusplus)
 }
 #endif
-
 #if !defined(_BLARRAY_C)
 #if defined(__cplusplus)
 extern "C" size_t BLUnitSizes[];
@@ -68,3 +61,19 @@ extern "C" size_t BLUnitSizes[];
 extern size_t BLUnitSizes[];
 #endif
 #endif
+
+#define BLArray_New(cUnits, t) \
+( \
+	BLArray_Init((PBLArray)malloc(sizeof(BLArray) + (cUnits) * BLUnitSizes[(t)]), (cUnits) * BLUnitSizes[(t)]) \
+)
+
+#define BLArray_NewAlloca(cUnits, t) \
+( \
+	BLArray_Init((PBLArray)alloca(sizeof(BLArray) + (cUnits) * BLUnitSizes[(t)]), (cUnits) * BLUnitSizes[(t)]) \
+)
+
+#define BLArray_Delete(pp)	if ((pp) && *(pp)) { free(*(pp)); *(pp) = NULL; }
+
+#define BLArray_ByteCount(p) (((PBLArray)(p))->end.c - ((PBLArray)(p))->data.c)
+
+#define BLArray_UnitCount(p, t) ((BLArray_ByteCount(p)) / BLUnitSizes[(t)])

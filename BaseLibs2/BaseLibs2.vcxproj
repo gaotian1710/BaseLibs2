@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseLibs2.h" />
+    <ClInclude Include="BLBlas.h" />
     <ClInclude Include="BLArray.h" />
     <ClInclude Include="BLError.h" />
     <ClInclude Include="BLFsm.h" />
@@ -170,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BLArray.c" />
+    <ClCompile Include="BLBlas.c" />
     <ClCompile Include="BLError.c" />
     <ClCompile Include="BLFsm.c" />
     <ClCompile Include="BLLog.c" />

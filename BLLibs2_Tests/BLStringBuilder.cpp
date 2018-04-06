@@ -14,6 +14,10 @@ namespace BaseLibs2_Tests
 	TEST_CLASS(UT_BLStringBuilder)
 	{
 	public:
+		TEST_METHOD_INITIALIZE(InitTests)
+		{
+			setlocale(LC_ALL, "en_US.UTF-8");
+		}
 
 		TEST_METHOD(NewAppendAndDelete)
 		{

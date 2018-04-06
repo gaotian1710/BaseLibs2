@@ -41,5 +41,14 @@
     <ClCompile Include="BLWinPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BLArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="std_c_apis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BLBlas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

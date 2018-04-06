@@ -37,14 +37,19 @@ namespace BaseLibs2_Tests
 		{
 			BLData1 data;
 			data.wc = L'A';
+			// appending one wide character
 			int i = BLTupleFormatter_wc(BLTupleColumnPosition_Begin, buffer, 2, &data);
 			Assert::AreEqual(1, i, L"1 character, buffer length=2");
+			// appending one wide character and a new line, totally three characters, and then overflow and fail
 			i = BLTupleFormatter_wc(BLTupleColumnPosition_OnlyOne, buffer, 2, &data);
 			Assert::AreEqual(-1, i, L"1 character and new line, buffer length=2");
+			// appending one wide character and a new line, totally three characters successfully
 			i = BLTupleFormatter_wc(BLTupleColumnPosition_OnlyOne, buffer, 4, &data);
 			Assert::AreEqual(3, i, L"1 character and new line, buffer length=4");
+			// appending a ',', one wide character, and a new line, totally four characcters, and then overflow and fail.
 			i = BLTupleFormatter_wc(BLTupleColumnPosition_End, buffer, 4, &data);
 			Assert::AreEqual(-1, i, L"',', 1 character, and new line, buffer length=4");
+			// appending a ',', one wide character, and a new line, totally four characcters successfully
 			i = BLTupleFormatter_wc(BLTupleColumnPosition_End, buffer, 5, &data);
 			Assert::AreEqual(4, i, L"',', 1 character and new line, buffer length=5");
 			Assert::AreEqual(L",A\r\n", buffer, L"finished string in buffer");

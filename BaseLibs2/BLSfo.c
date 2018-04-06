@@ -96,6 +96,10 @@ DWORD BLSfo_MoveFile(const wchar_t * src, const wchar_t * dst, BOOL force)
 	DWORD err = ERROR_SUCCESS;
 	BLSfo_CallbackInfo0 info = { NULL, ERROR_SUCCESS };
 	do {
+		if (!PathFileExists(src))
+		{
+			err = ERROR_FILE_NOT_FOUND; break;
+		}
 		if (PathFileExists(dst))
 		{
 			if (force)

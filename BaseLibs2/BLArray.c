@@ -28,37 +28,12 @@ size_t BLUnitSizes[] = {
 	sizeof(wchar_t*),
 };
 
-void BLArray_Init(PBLArray p, size_t cbPureData)
+
+PBLArray BLArray_Init(PBLArray p, size_t cbPureData)
 {
 	p->end.c = p->data.c + cbPureData;
 	memset(p->data.c, 0, cbPureData);
-}
-PBLArray BLArray_New(size_t cUnits, BLTypes t)
-{
-	size_t cbPureData = cUnits * BLUnitSizes[t];
-	size_t cbAlloc = sizeof(BLArray) + cbPureData;
-	PBLArray p = (PBLArray)malloc(cbAlloc);
-	BLArray_Init(p, cbPureData);
 	return p;
-}
-
-void BLArray_Delete(PBLArray *pp)
-{
-	if (pp && *pp)
-	{
-		free(*pp);
-		*pp = NULL;
-	}
-}
-
-size_t BLArray_ByteCount(PCBLArray p)
-{
-	return (p->end.c - p->data.c);
-}
-
-size_t BLArray_UnitCount(PCBLArray p, BLTypes t)
-{
-	return BLArray_ByteCount(p) / BLUnitSizes[t];
 }
 
 PBLBuffer BLBuffer_New(size_t cUnits, BLTypes t)

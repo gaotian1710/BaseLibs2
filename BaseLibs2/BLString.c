@@ -153,7 +153,7 @@ PBLArray BLString_ModifyPath1(const wchar_t * wstr, unsigned int i)
 	PBLArray p = NULL;
 	if (i >= 100) return p;
 	p = BLString_NewW(wstr, wcslen(wstr) + 4);
-	wchar_t* extPos = p->end.wc;
+	wchar_t* extPos = (wchar_t*)(p->end.wc);
 	do {
 		--extPos;
 		if (*extPos == L'.') break;

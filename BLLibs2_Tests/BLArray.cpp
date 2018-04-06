@@ -3,6 +3,8 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+wchar_t buffer[1024];
+
 namespace BaseLibs2_Tests
 {		
 	TEST_CLASS(UTBLArray)
@@ -11,13 +13,17 @@ namespace BaseLibs2_Tests
 		
 		TEST_METHOD(UTBLArray_NewByteCountUnitCountDelete)
 		{
+			Logger::WriteMessage(L"UTBLArray_NewByteCountUnitCountDelete entered.");
 			PBLArray p = BLArray_New(2, BLType_dc);
-			Assert::AreEqual((size_t)32, BLArray_ByteCount(p));
-			Assert::AreEqual((size_t)32, BLArray_UnitCount(p, BLType_c));
-			Assert::AreEqual((size_t)2, BLArray_UnitCount(p, BLType_dc));
-			Assert::AreEqual((size_t)8, BLArray_UnitCount(p, BLType_ui32));
+			_snwprintf_s(buffer, ARRAYSIZE(buffer), ARRAYSIZE(buffer) - 1,
+				L"p = 0x%I64x, p->data.c = 0x%I64x, p->end.c = 0x%I64x", (uint64_t)p, (uint64_t)(p->data.c), (uint64_t)(p->end.c)); 
+			Logger::WriteMessage(buffer);
+			Assert::AreEqual((size_t)32, (size_t)BLArray_ByteCount(p), L"byte count");
+			Assert::AreEqual((size_t)32, (size_t)BLArray_UnitCount(p, BLType_c), L"character count");
+			Assert::AreEqual((size_t)2, (size_t)BLArray_UnitCount(p, BLType_dc), L"double number count");
+			Assert::AreEqual((size_t)8, (size_t)BLArray_UnitCount(p, BLType_ui32), L"uint32_t number count");
 			BLArray_Delete(&p);
-			Assert::AreEqual((void*)NULL, (void*)p);
+			Assert::AreEqual((void*)NULL, (void*)p, L"pointer was cleared.");
 		}
 
 		TEST_METHOD(UTBLArray_PutI8GetI32)

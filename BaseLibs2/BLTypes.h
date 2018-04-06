@@ -124,3 +124,10 @@ extern "C" const wchar_t* const BLTypeLabels[];
 extern const wchar_t* const BLTypeLabels[];
 #endif
 #endif
+
+#if defined(_CRTDBG_MAP_ALLOC)
+#define DumpHeap	_CrtDumpMemoryLeaks
+#else
+#define DumpHeap
+#endif
+
