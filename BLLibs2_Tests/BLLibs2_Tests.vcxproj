@@ -184,6 +184,7 @@
     </ClCompile>
     <ClCompile Include="std_c_apis.cpp" />
     <ClCompile Include="BLBlas.cpp" />
+    <ClCompile Include="BLSLog.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

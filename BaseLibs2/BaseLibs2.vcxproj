@@ -160,6 +160,7 @@
     <ClInclude Include="BLFsm.h" />
     <ClInclude Include="BLLog.h" />
     <ClInclude Include="BLSfo.h" />
+    <ClInclude Include="BLSLog.h" />
     <ClInclude Include="BLString.h" />
     <ClInclude Include="BLStringBuilder.h" />
     <ClInclude Include="BLTuple.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="BLFsm.c" />
     <ClCompile Include="BLLog.c" />
     <ClCompile Include="BLSfo.c" />
+    <ClCompile Include="BLSLog.c" />
     <ClCompile Include="BLString.c" />
     <ClCompile Include="BLStringBuilder.c" />
     <ClCompile Include="BLTuple.c" />
