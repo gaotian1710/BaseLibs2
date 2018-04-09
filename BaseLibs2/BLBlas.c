@@ -1,170 +1,163 @@
 #include "stdafx.h"
 #include "BLTypes.h"
+#include "BLError.h"
+#include "BLArray.h"
 #include "BLBlas.h"
 
+#pragma region float operations
 #pragma region _1v0c operations
-void BLBlas_ZpEqZeroF(PBLPtr z)
+
+int BLBlas_ZEqZeroF(BLRange z)
 {
-	*(z->f++) = 0.0f;
+	BLRange_Check1DBG(&z, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) = 0.0f;
+	}
+	return 0;
 }
 
-void BLBlas_ZpEqOneF(PBLPtr z)
+int BLBlas_ZEqOneF(BLRange z)
 {
-	*(z->f++) = 1.0f;
+	BLRange_Check1DBG(&z, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) = 1.0f;
+	}
+	return 0;
 }
 
-void BLBlas_ZpEqNegativeOneF(PBLPtr z)
+int BLBlas_ZEqMinusOneF(BLRange z)
 {
-	*(z->f++) = -1.0f;
+	BLRange_Check1DBG(&z, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) = -1.0f;
+	}
+	return 0;
 }
-
-void BLBlas_ZpEqZeroD(PBLPtr z)
-{
-	*(z->d++) = 0.0;
-}
-
-void BLBlas_ZpEqOneD(PBLPtr z)
-{
-	*(z->d++) = 1.0;
-}
-
-void BLBlas_ZpEqNegativeOneD(PBLPtr z)
-{
-	*(z->d++) = -1.0;
-}
-
-void BLBlas_ZpEqZeroFc(PBLPtr z)
-{
-	*(z->fc++) = _FCOMPLEX_(0.0f, 0.0f);
-}
-
-void BLBlas_ZpEqOneFc(PBLPtr z)
-{
-	*(z->fc++) = _FCOMPLEX_(1.0f, 0.0f);
-}
-
-void BLBlas_ZpEqNegativeOneFc(PBLPtr z)
-{
-	*(z->fc++) = _FCOMPLEX_(-1.0f, 0.0f);
-}
-
-void BLBlas_ZpEqZeroDc(PBLPtr z)
-{
-	*(z->dc++) = _DCOMPLEX_(0.0, 0.0);
-}
-
-void BLBlas_ZpEqOneDc(PBLPtr z)
-{
-	*(z->dc++) = _DCOMPLEX_(1.0, 0.0);
-}
-
-void BLBlas_ZpEqNegativeOneDc(PBLPtr z)
-{
-	*(z->dc++) = _DCOMPLEX_(-1.0, 0.0);
-}
-
 #pragma endregion _1v0c operations
 
 #pragma region _1v1c operations
-void BLBlas_ZpEqXpF(PBLPtr z, PBLCPtr x)
+int BLBlas_ZEqXF(BLRange z, BLCRange x)
 {
-	*(z->f++) = *(x->f++);
+	BLRange_Check2DBG(&z, &x, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) = *(x.scan.f++);
+	}
+	return 0;
 }
 
-void BLBlas_ZpAddEqXpF(PBLPtr z, PBLCPtr x)
+int BLBlas_ZAddEqXF(BLRange z, BLCRange x)
 {
-	*(z->f++) += *(x->f++);
+	BLRange_Check2DBG(&z, &x, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) += *(x.scan.f++);
+	}
+	return 0;
 }
 
-inline void BLBlas_ZpSubEqXpF(PBLPtr z, PBLCPtr x)
+int BLBlas_ZSubEqXF(BLRange z, BLCRange x)
 {
-	*(z->f++) -= *(x->f++);
+	BLRange_Check2DBG(&z, &x, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) -= *(x.scan.f++);
+	}
+	return 0;
 }
 
-inline void BLBlas_ZpMulEqXpF(PBLPtr z, PBLCPtr x)
+int BLBlas_ZMulEqXF(BLRange z, BLCRange x)
 {
-	*(z->f++) *= *(x->f++);
+	BLRange_Check2DBG(&z, &x, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) *= *(x.scan.f++);
+	}
+	return 0;
 }
 
-inline void BLBlas_ZpDivEqXpF(PBLPtr z, PBLCPtr x)
+int BLBlas_ZDivEqXF(BLRange z, BLCRange x)
 {
-	*(z->f++) /= *(x->f++);
+	BLRange_Check2DBG(&z, &x, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) /= *(x.scan.f++);
+	}
+	return 0;
 }
 
-inline void BLBlas_ZpEqNegativeXpF(PBLPtr z, PBLCPtr x)
+int BLBlas_ZEqNegateXF(BLRange z, BLCRange x)
 {
-	*(z->f++) = (-1.0f) * *(x->f++);
+	BLRange_Check2DBG(&z, &x, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) = (-1.0f) * (*(x.scan.f++));
+	}
+	return 0;
 }
 
-inline void BLBlas_ZpEqReciprocalXpF(PBLPtr z, PBLCPtr x)
+int BLBlas_ZEqReciprocalXF(BLRange z, BLCRange x)
 {
-	*(z->f++) = 1.0 / (*(x->f++));
+	BLRange_Check2DBG(&z, &x, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (z.scan.f != z.end.f)
+	{
+		*(z.scan.f++) = 1.0f / (*(x.scan.f++));
+	}
+	return 0;
 }
-
-inline void BLBlas_ZpEqXpD(PBLPtr z, PBLCPtr x)
+#pragma endregion _1v0c operations
+#pragma region _2v operations
+int BLBlas_Swap(BLRange x, BLRange y)
 {
-	*(z->d++) = *(x->d++);
+	BLRange_Check2VDBG(&x, &y, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (x.scan.f != x.end.f)
+	{
+		float f = *(x.scan.f);
+		*(x.scan.f++) = *(y.scan.f);
+		*(y.scan.f++) = f;
+	}
+	return 0;
 }
-
-inline void BLBlas_ZpAddEqXpD(PBLPtr z, PBLCPtr x)
+#pragma endregion _2v operations
+#pragma region _1v2c operations
+int BLBlas_ZEqXAddYF(BLRange z, BLCRange x, BLCRange y)
 {
-	*(z->d++) += *(x->d++);
+	BLRange_Check3DBG(&z, &x, &y, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (x.scan.f != x.end.f)
+	{
+		*(z.scan.f++) = *(x.scan.f++) + *(y.scan.f++);
+	}
+	return 0;
 }
-
-inline void BLBlas_ZpSubEqXpD(PBLPtr z, PBLCPtr x)
+int BLBlas_ZEqXSubYF(BLRange z, BLCRange x, BLCRange y)
 {
-	*(z->d++) -= *(x->d++);
+	BLRange_Check3DBG(&z, &x, &y, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (x.scan.f != x.end.f)
+	{
+		*(z.scan.f++) = *(x.scan.f++) - *(y.scan.f++);
+	}
+	return 0;
 }
-
-inline void BLBlas_ZpMulEqXpD(PBLPtr z, PBLCPtr x)
+int BLBlas_ZEqXMulYF(BLRange z, BLCRange x, BLCRange y)
 {
-	*(z->d++) *= *(x->d++);
+	BLRange_Check3DBG(&z, &x, &y, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (x.scan.f != x.end.f)
+	{
+		*(z.scan.f++) = *(x.scan.f++) * *(y.scan.f++);
+	}
+	return 0;
 }
-
-inline void BLBlas_ZpDivEqXpD(PBLPtr z, PBLCPtr x)
+int BLBlas_ZEqXDivYF(BLRange z, BLCRange x, BLCRange y)
 {
-	*(z->d++) /= *(x->d++);
+	BLRange_Check3DBG(&z, &x, &y, BLType_f); // range check is effective only when _DEBUG is defined.
+	while (x.scan.f != x.end.f)
+	{
+		*(z.scan.f++) = *(x.scan.f++) / *(y.scan.f++);
+	}
+	return 0;
 }
-
-inline void BLBlas_ZpEqNegativeXpD(PBLPtr z, PBLCPtr x)
-{
-	*(z->d++) = (-1.0) * (*(x->d++));
-}
-
-inline void BLBlas_ZpEqReciprocalXpD(PBLPtr z, PBLCPtr x)
-{
-	*(z->d++) = 1.0/ (*(x->d++));
-}
-
-inline void BLBlas_ZpEqXpFc(PBLPtr z, PBLCPtr x)
-{
-	*(z->fc++) = *(x->fc++);
-}
-
-inline void BLBlas_ZpAddEqXpFc(PBLPtr z, PBLCPtr x)
-{
-	float* zf = z->f;
-	const float* xf = x->f;
-	*zf++ += *xf++;
-	*zf++ += *xf++;
-	z->fc = (_Fcomplex*)zf;
-	x->fc = (_Fcomplex*)xf;
-}
-
-inline void BLBlas_ZpSubEqXpFc(PBLPtr z, PBLCPtr x)
-{
-	float* zf = z->f;
-	const float* xf = x->f;
-	*zf++ -= *xf++;
-	*zf++ -= *xf++;
-	z->fc = (_Fcomplex*)zf;
-	x->fc = (_Fcomplex*)xf;
-}
-
-inline void BLBlas_ZpMulEqXpFc(PBLPtr z, PBLCPtr x)
-{
-	*(z->fc) = _FCmulcc(*(z->fc), *(x->fc++));
-	z->fc++;
-}
-
-#pragma endregion _1v1c operations
+#pragma endregion _1v2c operations
+#pragma endregion float operations

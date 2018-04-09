@@ -22,4 +22,5 @@
 #include "BLSfo.h"
 #include "BLTuple.h"
 #include "BLTuplePrivate.h"
+#include "BLBlas.h"
 #include "BLSLog.h"
