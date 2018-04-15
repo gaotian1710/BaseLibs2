@@ -24,3 +24,4 @@
 #include "BLTuplePrivate.h"
 #include "BLBlas.h"
 #include "BLSLog.h"
+#include "BLMatrix.h"

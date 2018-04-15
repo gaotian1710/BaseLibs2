@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logger", "Logger", "{61C719
 		Docs\BLLog\Concept.txt = Docs\BLLog\Concept.txt
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BLLibs2_Tests", "BLLibs2_Tests\BLLibs2_Tests.vcxproj", "{83F722AB-1749-4A16-92A6-61B9FEBBAF88}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseLibs2_Tests", "BLLibs2_Tests\BLLibs2_Tests.vcxproj", "{83F722AB-1749-4A16-92A6-61B9FEBBAF88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -48,5 +48,6 @@ namespace BaseLibs2_Tests
 			Assert::AreEqual((int)0, (int)diff);
 			BLArray_Delete(&p);
 		}
+
 	};
 }

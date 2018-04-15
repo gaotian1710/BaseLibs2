@@ -19,7 +19,7 @@ namespace BaseLibs2_Tests
 		TEST_METHOD(BLTupleFormatter_c_buffer_overflow)
 		{
 			BLData1 data;
-			data.c = 'A';
+			data.c[0] = 'A';
 			int i = BLTupleFormatter_c(BLTupleColumnPosition_Begin, buffer, 2, &data);
 			Assert::AreEqual(1, i, L"1 character, buffer length=2");
 			i = BLTupleFormatter_c(BLTupleColumnPosition_OnlyOne, buffer, 2, &data);
@@ -36,7 +36,7 @@ namespace BaseLibs2_Tests
 		TEST_METHOD(BLTupleFormatter_wc_buffer_Overflow)
 		{
 			BLData1 data;
-			data.wc = L'A';
+			data.wc[0] = L'A';
 			// appending one wide character
 			int i = BLTupleFormatter_wc(BLTupleColumnPosition_Begin, buffer, 2, &data);
 			Assert::AreEqual(1, i, L"1 character, buffer length=2");
