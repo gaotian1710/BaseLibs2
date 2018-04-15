@@ -64,12 +64,12 @@ extern size_t BLUnitSizes[];
 
 #define BLArray_New(cUnits, t) \
 ( \
-	BLArray_Init((PBLArray)malloc(sizeof(BLArray) + (cUnits) * BLUnitSizes[(t)]), (cUnits) * BLUnitSizes[(t)]) \
+	BLArray_Init((PBLArray)malloc(sizeof(BLPtr) + (cUnits) * BLUnitSizes[(t)]), (cUnits) * BLUnitSizes[(t)]) \
 )
 
 #define BLArray_NewAlloca(cUnits, t) \
 ( \
-	BLArray_Init((PBLArray)alloca(sizeof(BLArray) + (cUnits) * BLUnitSizes[(t)]), (cUnits) * BLUnitSizes[(t)]) \
+	BLArray_Init((PBLArray)alloca(sizeof(BLPtr) + (cUnits) * BLUnitSizes[(t)]), (cUnits) * BLUnitSizes[(t)]) \
 )
 
 #define BLArray_Delete(pp)	if ((pp) && *(pp)) { free(*(pp)); *(pp) = NULL; }

@@ -37,7 +37,7 @@ int BLTupleFormatter_c(
 		L"%c\r\n", L"%c", L",%c", L",%c\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->c);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->c[0]);
 }
 
 int BLTupleFormatter_wc(
@@ -47,7 +47,7 @@ int BLTupleFormatter_wc(
 		L"%wc\r\n", L"%wc", L",%wc", L",%wc\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->wc);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->wc[0]);
 }
 
 int BLTupleFormatter_i8(
@@ -57,7 +57,7 @@ int BLTupleFormatter_i8(
 		L"%d\r\n", L"%d", L",%d", L",%d\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->i8);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->i8[0]);
 }
 
 int BLTupleFormatter_i16(
@@ -67,7 +67,7 @@ int BLTupleFormatter_i16(
 		L"%d\r\n", L"%d", L",%d", L",%d\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->i16);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->i16[0]);
 }
 
 int BLTupleFormatter_i32(
@@ -77,7 +77,7 @@ int BLTupleFormatter_i32(
 		L"%d\r\n", L"%d", L",%d", L",%d\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->i32);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->i32[0]);
 }
 
 int BLTupleFormatter_i64(
@@ -87,7 +87,7 @@ int BLTupleFormatter_i64(
 		L"%d\r\n", L"%d", L",%d", L",%d\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->i64);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->i64[0]);
 }
 
 int BLTupleFormatter_ui8(
@@ -97,7 +97,7 @@ int BLTupleFormatter_ui8(
 		L"%u\r\n", L"%u", L",%u", L",%u\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ui8);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ui8[0]);
 }
 
 int BLTupleFormatter_ui16(
@@ -107,7 +107,7 @@ int BLTupleFormatter_ui16(
 		L"%u\r\n", L"%u", L",%u", L",%u\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ui16);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ui16[0]);
 }
 
 int BLTupleFormatter_ui32(
@@ -117,7 +117,7 @@ int BLTupleFormatter_ui32(
 		L"%u\r\n", L"%u", L",%u", L",%u\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ui32);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ui32[0]);
 }
 
 	
@@ -128,7 +128,7 @@ int BLTupleFormatter_ui64(
 		L"%u\r\n", L"%u", L",%u", L",%u\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ui64);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ui64[0]);
 }
 int BLTupleFormatter_f(
 	BLTupleColumnPosition pos, wchar_t* buffer, size_t bufferLength, const BLData1* data)
@@ -137,7 +137,7 @@ int BLTupleFormatter_f(
 		L"%e\r\n", L"%e", L",%e", L",%e\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->f);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->f[0]);
 }
 int BLTupleFormatter_d(
 	BLTupleColumnPosition pos, wchar_t* buffer, size_t bufferLength, const BLData1* data)
@@ -146,7 +146,7 @@ int BLTupleFormatter_d(
 		L"%e\r\n", L"%e", L",%e", L",%e\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->d);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->d[0]);
 }
 
 int BLTupleFormatter_fc(
@@ -156,7 +156,7 @@ int BLTupleFormatter_fc(
 		L"%e + j%e\r\n", L"%e + j%e", L",%e + j%e", L",%e + j%e\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], crealf(data->fc), cimagf(data->fc));
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], crealf(data->fc[0]), cimagf(data->fc[0]));
 }
 
 int BLTupleFormatter_dc(
@@ -166,7 +166,7 @@ int BLTupleFormatter_dc(
 		L"%e + j%e\r\n", L"%e + j%e", L",%e + j%e", L",%e + j%e\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], creal(data->dc), cimag(data->dc));
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], creal(data->dc[0]), cimag(data->dc[0]));
 }
 
 int BLTupleFormatter_ptr(
@@ -176,7 +176,7 @@ int BLTupleFormatter_ptr(
 		L"0x%016x\r\n", L"0x%016x", L",0x%016x", L",0x%016x\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ptr);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], data->ptr[0]);
 }
 
 int BLTupleFormatter_type(
@@ -186,7 +186,7 @@ int BLTupleFormatter_type(
 		L"%ws\r\n", L"%ws", L",%ws", L",%ws\r\n"
 	};
 	return _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], BLTypeLabels[data->type]);
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], BLTypeLabels[data->type[0]]);
 }
 	
 int BLTupleFormatter_ccstr(
@@ -195,13 +195,13 @@ int BLTupleFormatter_ccstr(
 	const wchar_t* formatStrings[] = {
 		L"%hs\r\n", L"%hs", L",%hs", L",%hs\r\n"
 	};
-	PBLArray cstr = BLString_NewA(data->ccstr, 0);
+	PBLArray cstr = BLString_NewA(data->ccstr[0], 0);
 	PBLArray wcstr = BLString_mbc2wc(cstr);
 	BLArray_Delete(&cstr);
 	PBLArray dqedwcstr = BLString_CsvDoubleQuotedString(wcstr);
 	BLArray_Delete(&wcstr);
 	int i = _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], dqedwcstr->data.wc
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], dqedwcstr->data.wc[0]
 	);
 	BLArray_Delete(&dqedwcstr);
 	return i;
@@ -213,10 +213,10 @@ int BLTupleFormatter_cwcstr(
 	const wchar_t* formatStrings[] = {
 		L"%ws\r\n", L"%ws", L",%ws", L",%ws\r\n"
 	};
-	PBLArray dqedString = BLString_CsvDoubleQuatedStringRaw(data->cwcstr);
+	PBLArray dqedString = BLString_CsvDoubleQuatedStringRaw(data->cwcstr[0]);
 
 	int i = _snwprintf_s(
-		buffer, bufferLength, bufferLength - 1, formatStrings[pos], dqedString->data.wc
+		buffer, bufferLength, bufferLength - 1, formatStrings[pos], dqedString->data.wc[0]
 	);
 	BLArray_Delete(&dqedString);
 	return i;

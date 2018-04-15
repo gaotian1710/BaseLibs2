@@ -159,6 +159,7 @@
     <ClInclude Include="BLError.h" />
     <ClInclude Include="BLFsm.h" />
     <ClInclude Include="BLLog.h" />
+    <ClInclude Include="BLMatrix.h" />
     <ClInclude Include="BLSfo.h" />
     <ClInclude Include="BLSLog.h" />
     <ClInclude Include="BLString.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="BLError.c" />
     <ClCompile Include="BLFsm.c" />
     <ClCompile Include="BLLog.c" />
+    <ClCompile Include="BLMatrix.c" />
     <ClCompile Include="BLSfo.c" />
     <ClCompile Include="BLSLog.c" />
     <ClCompile Include="BLString.c" />
